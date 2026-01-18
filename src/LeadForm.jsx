@@ -203,20 +203,16 @@ export default function LeadForm() {
             Telefonnummer *
           </span>
           <input
-            type="tel"
-            value={form.phone}
-            onChange={(e) => update("phone", e.target.value)}
-            required
-            pattern="^[0-9 +()/-]{6,}$"
-            title="Bitte eine gültige Telefonnummer eingeben (mindestens 6 Zeichen)."
-            placeholder="z. B. 0176 12345678 oder 030 123456"
-            style={{
-              width: "100%",
-              padding: "10px 12px",
-              border: "1px solid #ccc",
-              borderRadius: 4,
-            }}
-          />
+  type="tel"
+  value={form.phone}
+  onChange={(e) => update("phone", e.target.value)}
+  required
+  pattern="^[0-9 +()\/-]{6,}$"
+  title="Bitte eine gültige Telefonnummer eingeben (mindestens 6 Zeichen)."
+  placeholder="z. B. 0176 12345678 oder 030 123456"
+  style={{ width: "100%", padding: "10px 12px", border: "1px solid #ccc", borderRadius: 4 }}
+/>
+
         </label>
 
         <label>
