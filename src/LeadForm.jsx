@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-// CRA (Create React App) nutzt REACT_APP_... (nicht VITE_...)
+// Create React App nutzt REACT_APP_...
 const API_BASE = process.env.REACT_APP_API_BASE || "http://localhost:5000";
 
 export default function LeadForm() {
@@ -24,7 +24,6 @@ export default function LeadForm() {
     e.preventDefault();
     setStatus({ type: "loading", msg: "Sende Anfrage..." });
 
-    // kleine Normalisierung
     const payload = {
       ...form,
       description: form.description.trim(),
@@ -51,7 +50,6 @@ export default function LeadForm() {
         msg: "Anfrage gesendet. Wir melden uns zeitnah.",
       });
 
-      // Formular nach Erfolg komplett zurücksetzen
       setForm({
         service: "Reparatur",
         description: "",
@@ -98,20 +96,14 @@ export default function LeadForm() {
       </p>
 
       <form onSubmit={onSubmit} style={{ display: "grid", gap: 16 }}>
+        {/* Art */}
         <label>
-          <span style={{ display: "block", marginBottom: 4, fontWeight: 500 }}>
-            Art der Anfrage *
-          </span>
+          <strong>Art der Anfrage *</strong>
           <select
             value={form.service}
             onChange={(e) => update("service", e.target.value)}
             required
-            style={{
-              width: "100%",
-              padding: "10px 12px",
-              border: "1px solid #ccc",
-              borderRadius: 4,
-            }}
+            style={inputStyle}
           >
             <option>Reparatur</option>
             <option>Neuinstallation / Umbau</option>
@@ -121,38 +113,26 @@ export default function LeadForm() {
           </select>
         </label>
 
+        {/* Beschreibung */}
         <label>
-          <span style={{ display: "block", marginBottom: 4, fontWeight: 500 }}>
-            Kurzbeschreibung *
-          </span>
+          <strong>Kurzbeschreibung *</strong>
           <textarea
             value={form.description}
             onChange={(e) => update("description", e.target.value)}
             required
             rows={4}
             placeholder="z. B. Heizung kalt, Fehlercode 12, seit heute Morgen…"
-            style={{
-              width: "100%",
-              padding: "10px 12px",
-              border: "1px solid #ccc",
-              borderRadius: 4,
-            }}
+            style={inputStyle}
           />
         </label>
 
+        {/* Dringlichkeit */}
         <label>
-          <span style={{ display: "block", marginBottom: 4, fontWeight: 500 }}>
-            Dringlichkeit
-          </span>
+          <strong>Dringlichkeit</strong>
           <select
             value={form.urgency}
             onChange={(e) => update("urgency", e.target.value)}
-            style={{
-              width: "100%",
-              padding: "10px 12px",
-              border: "1px solid #ccc",
-              borderRadius: 4,
-            }}
+            style={inputStyle}
           >
             <option>Heute</option>
             <option>In den nächsten Tagen</option>
@@ -160,110 +140,82 @@ export default function LeadForm() {
           </select>
         </label>
 
+        {/* Ort */}
         <label>
-          <span style={{ display: "block", marginBottom: 4, fontWeight: 500 }}>
-            PLZ / Ort *
-          </span>
+          <strong>PLZ / Ort *</strong>
           <input
             type="text"
             value={form.location}
             onChange={(e) => update("location", e.target.value)}
             required
             placeholder="z. B. 65549 Limburg"
-            style={{
-              width: "100%",
-              padding: "10px 12px",
-              border: "1px solid #ccc",
-              borderRadius: 4,
-            }}
+            style={inputStyle}
           />
         </label>
 
+        {/* Name */}
         <label>
-          <span style={{ display: "block", marginBottom: 4, fontWeight: 500 }}>
-            Name *
-          </span>
+          <strong>Name *</strong>
           <input
             type="text"
             value={form.name}
             onChange={(e) => update("name", e.target.value)}
             required
             placeholder="Max Mustermann"
-            style={{
-              width: "100%",
-              padding: "10px 12px",
-              border: "1px solid #ccc",
-              borderRadius: 4,
-            }}
+            style={inputStyle}
           />
         </label>
 
+        {/* Telefon */}
         <label>
-          <span style={{ display: "block", marginBottom: 4, fontWeight: 500 }}>
-            Telefonnummer *
-          </span>
+          <strong>Telefonnummer *</strong>
           <input
-  type="tel"
-  value={form.phone}
-  onChange={(e) => update("phone", e.target.value)}
-  required
-  pattern="^[0-9 +()\\-]{6,}$"
-  title="Bitte eine gültige Telefonnummer eingeben (mindestens 6 Zeichen)."
-  placeholder="z. B. 0176 12345678 oder 030 123456"
-  style={{ width: "100%", padding: "10px 12px", border: "1px solid #ccc", borderRadius: 4 }}
-/>
-
+            type="tel"
+            value={form.phone}
+            onChange={(e) => update("phone", e.target.value)}
+            required
+            placeholder="z. B. 0176 12345678"
+            style={inputStyle}
+          />
         </label>
 
+        {/* Wunschzeit */}
         <label>
-          <span style={{ display: "block", marginBottom: 4, fontWeight: 500 }}>
-            Wunschzeit (optional)
-          </span>
+          <strong>Wunschzeit (optional)</strong>
           <input
             type="text"
             value={form.timeWindow}
             onChange={(e) => update("timeWindow", e.target.value)}
             placeholder="z. B. 14–17 Uhr"
-            style={{
-              width: "100%",
-              padding: "10px 12px",
-              border: "1px solid #ccc",
-              borderRadius: 4,
-            }}
+            style={inputStyle}
           />
         </label>
 
+        {/* Submit */}
         <button
           type="submit"
           disabled={status.type === "loading"}
           style={{
             padding: 12,
             fontWeight: 600,
+            fontSize: 16,
             cursor: status.type === "loading" ? "not-allowed" : "pointer",
             backgroundColor: status.type === "loading" ? "#ccc" : "#007acc",
-            color: "white",
+            color: "#fff",
             border: "none",
             borderRadius: 4,
-            fontSize: "16px",
-            transition: "background-color 0.2s",
           }}
         >
           {status.type === "loading" ? "Wird gesendet..." : "Anfrage senden"}
         </button>
 
-        <small style={{ color: "#555", fontSize: "14px" }}>
-          Mit dem Absenden stimmen Sie der Verarbeitung Ihrer Daten zur Bearbeitung der Anfrage zu.
+        <small style={{ color: "#555" }}>
+          Mit dem Absenden stimmen Sie der Verarbeitung Ihrer Daten zur
+          Bearbeitung der Anfrage zu.
         </small>
 
         {status.type !== "idle" && (
-          <div
-            style={{
-              padding: 12,
-              border: "1px solid",
-              borderRadius: 4,
-              ...statusStyles,
-            }}
-          >
+          <div style={{ padding: 12, border: "1px solid", borderRadius: 4, ...statusStyles }}>
             {status.msg}
           </div>
         )}
@@ -271,3 +223,10 @@ export default function LeadForm() {
     </div>
   );
 }
+
+const inputStyle = {
+  width: "100%",
+  padding: "10px 12px",
+  border: "1px solid #ccc",
+  borderRadius: 4,
+};
